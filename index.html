@@ -131,6 +131,22 @@
 </div>
 
 <script>
+/* ---------- storage adapter: Claude artifact OR GitHub Pages ---------- */
+const store={
+  async get(k){
+    if(typeof window.storage!=='undefined'&&window.storage&&window.storage.get){
+      try{const r=await window.storage.get(k);return r?r.value:null}catch(e){return null}
+    }
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    if(typeof window.storage!=='undefined'&&window.storage&&window.storage.set){
+      try{await window.storage.set(k,v);return true}catch(e){}
+    }
+    try{localStorage.setItem(k,v);return true}catch(e){return false}
+  }
+};
+
 const START = new Date(2026,6,9);            // Jul 9, 2026
 const TOTAL = 100;
 const KEY = 'venky100:mission';
@@ -170,8 +186,8 @@ function weekNum(){return Math.min(15,Math.max(1,Math.ceil(dayIndex()/7)));}
 
 async function load(){
   try{
-    const r=await window.storage.get(KEY);
-    if(r&&r.value) S=JSON.parse(r.value);
+    const r=await store.get(KEY);
+    if(r) S=JSON.parse(r);
   }catch(e){ /* first run — key doesn't exist yet */ }
   if(!S.daily)S.daily={}; if(!S.weeks)S.weeks={}; if(!S.funnel)S.funnel={};
   document.getElementById('loading').style.display='none';
@@ -183,7 +199,7 @@ function save(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
     try{
-      await window.storage.set(KEY, JSON.stringify(S));
+      await store.set(KEY, JSON.stringify(S));
       document.getElementById('saveState').textContent='Saved ✓ (persists across sessions)';
     }catch(e){
       document.getElementById('saveState').textContent='Save failed — retry an action';
@@ -193,7 +209,7 @@ function save(){
 async function resetAll(){
   if(!confirm('Wipe ALL tracker data? This cannot be undone.'))return;
   S={daily:{},weeks:{},funnel:{}};
-  try{await window.storage.set(KEY,JSON.stringify(S));}catch(e){}
+  try{await store.set(KEY,JSON.stringify(S));}catch(e){}
   render();
 }
 

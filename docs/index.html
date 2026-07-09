@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>100-Day Mission Tracker — Venky</title>
+<title>Venky · 100-Day Mission Control</title>
 <style>
   :root{
     --pine:#123A2E; --pine-2:#1B5443; --moss:#7FA893;
@@ -13,39 +13,39 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--paper);color:var(--ink);font:15px/1.55 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:20px 14px 60px}
-  .wrap{max-width:880px;margin:0 auto}
+  .wrap{max-width:900px;margin:0 auto}
   .eyebrow{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--pine-2)}
-  h1{font-size:clamp(22px,4.5vw,32px);letter-spacing:-.02em;margin:6px 0 2px}
+  h1{font-size:clamp(22px,4.5vw,30px);letter-spacing:-.02em;margin:6px 0 2px}
   h1 .accent{color:var(--pine-2)}
   .sub{color:var(--dim);font-size:13px}
-  header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
-  .bignum{font:700 40px/1 var(--mono);color:var(--pine)}
-  .bignum small{font-size:13px;font-weight:600;color:var(--dim);display:block;letter-spacing:.08em;text-transform:uppercase}
-  /* runway — the signature element */
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+  .bignum{font:700 38px/1 var(--mono);color:var(--pine)}
+  .bignum small{font-size:12px;font-weight:600;color:var(--dim);display:block;letter-spacing:.08em;text-transform:uppercase}
+  /* tabs */
+  nav{display:flex;gap:6px;margin:14px 0 18px;border-bottom:2px solid var(--line)}
+  nav button{background:none;border:none;padding:10px 16px;font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+  nav button.active{color:var(--pine);border-bottom-color:var(--amber)}
+  .page{display:none}.page.active{display:block}
+  /* runway */
   .runway{display:grid;grid-template-columns:repeat(50,1fr);gap:2px;margin:6px 0 4px}
   .tick{height:14px;background:#E2E8E3;border-radius:1px;position:relative}
-  .tick.done{background:var(--pine-2)}
-  .tick.today{background:var(--amber);box-shadow:0 0 0 2px rgba(232,161,61,.35)}
+  .tick.done{background:var(--pine-2)} .tick.today{background:var(--amber);box-shadow:0 0 0 2px rgba(232,161,61,.35)}
   .tick.flag::after{content:"";position:absolute;top:-6px;left:50%;width:2px;height:6px;background:var(--coral)}
-  .runway-labels{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--dim);margin-bottom:18px}
+  .runway-labels{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--dim);margin-bottom:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
-  .card h2{font-size:15px;letter-spacing:.02em;margin-bottom:2px}
+  .card h2{font-size:15px;margin-bottom:2px}
   .card .hint{color:var(--dim);font-size:12px;margin-bottom:12px}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
-  /* daily checklist */
-  .todo{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:7px;cursor:pointer;user-select:none;transition:background .15s}
+  @media(max-width:660px){.grid2{grid-template-columns:1fr}}
+  /* todos */
+  .todo{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:7px;cursor:pointer;user-select:none}
   .todo:hover{background:#F6F9F6}
   .todo input{width:18px;height:18px;accent-color:var(--pine-2);cursor:pointer;flex-shrink:0}
-  .todo.on{background:#EDF4EF;border-color:var(--moss)}
-  .todo.on .t{color:var(--pine-2)}
-  .todo .t{font-size:14px}
-  .todo .why{font-size:11px;color:var(--dim)}
+  .todo.on{background:#EDF4EF;border-color:var(--moss)} .todo.on .t{color:var(--pine-2)}
+  .todo .t{font-size:14px} .todo .why{font-size:11px;color:var(--dim)}
   .streak{font:600 13px var(--mono);color:var(--amber)}
-  /* KPI rows */
-  .kpi{margin-bottom:12px}
+  /* kpis */
   .kpi-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;margin-bottom:4px}
-  .kpi-top b{font-weight:600}
   .kpi-top .n{font:600 13px var(--mono);color:var(--dim)}
   .bar{height:8px;background:#E7ECE8;border-radius:4px;overflow:hidden}
   .bar i{display:block;height:100%;background:var(--pine-2);border-radius:4px;transition:width .3s}
@@ -58,16 +58,14 @@
   .kpi-row:last-child{border-bottom:none}
   /* funnel */
   .funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-  @media(max-width:640px){.funnel{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:660px){.funnel{grid-template-columns:repeat(2,1fr)}}
   .stage{border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
   .stage .v{font:700 24px var(--mono);color:var(--pine)}
   .stage .l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
   .stage .rate{font:11px var(--mono);color:var(--moss)}
-  /* alerts */
   .alert{border-left:4px solid var(--amber);background:#FBF3E3;border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;margin-bottom:16px}
   .alert.red{border-color:var(--coral);background:#FBEAE5}
   .alert b{display:block;margin-bottom:2px}
-  /* week history */
   table{width:100%;border-collapse:collapse;font:12px var(--mono)}
   th{text-align:left;color:var(--dim);font-weight:600;padding:6px 8px;border-bottom:2px solid var(--line);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
   td{padding:6px 8px;border-bottom:1px solid var(--line)}
@@ -77,6 +75,31 @@
   .reset:hover{color:var(--coral);border-color:var(--coral)}
   .saving{font:11px var(--mono);color:var(--moss)}
   #loading{text-align:center;padding:60px;color:var(--dim);font:13px var(--mono)}
+  /* ============ SCRIPTS PAGE ============ */
+  .fillbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px}
+  @media(max-width:660px){.fillbar{grid-template-columns:1fr 1fr}}
+  .fillbar label{font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--dim);display:block;margin-bottom:3px}
+  .fillbar input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;font-size:14px;background:var(--card)}
+  .fillbar input:focus{outline:2px solid var(--moss);border-color:var(--moss)}
+  .tpl{border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:14px;overflow:hidden}
+  .tpl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;background:#F6F9F6;border-bottom:1px solid var(--line)}
+  .tpl-head h3{font-size:14px}
+  .tpl-head .when{font:11px var(--mono);color:var(--dim)}
+  .tpl-body{padding:14px 16px;font-size:14px;white-space:pre-wrap;line-height:1.6}
+  .tpl-body .ph{background:#FBF3E3;color:#8a5a00;border-radius:3px;padding:0 3px;font-weight:600}
+  .copy{border:1px solid var(--pine-2);background:var(--pine-2);color:#fff;border-radius:7px;padding:7px 14px;font:600 12px var(--mono);cursor:pointer;flex-shrink:0}
+  .copy:active{background:var(--pine)}
+  .copy.done{background:var(--amber);border-color:var(--amber)}
+  .char{font:10px var(--mono);color:var(--dim);padding:0 16px 10px;text-align:right}
+  .char.over{color:var(--coral);font-weight:700}
+  /* ============ LINKS PAGE ============ */
+  .links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:660px){.links{grid-template-columns:1fr}}
+  .lnk{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:11px 14px;text-decoration:none;color:var(--ink);background:var(--card)}
+  .lnk:hover{border-color:var(--moss);background:#F6F9F6}
+  .lnk b{font-size:14px;display:block} .lnk span{font-size:11px;color:var(--dim)}
+  .lnk .go{font:700 14px var(--mono);color:var(--pine-2)}
+  .memo{background:#EDF4EF;border:1px solid var(--moss);border-radius:8px;padding:12px 14px;font-size:13px;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -86,154 +109,545 @@
     <header>
       <div>
         <div class="eyebrow">Offer before graduation · Jul 9 → Oct 17, 2026</div>
-        <h1>100-Day <span class="accent">Mission Tracker</span></h1>
-        <div class="sub">AI Engineer (primary) · Data Scientist (backup) · Tampa / Remote / US</div>
+        <h1>100-Day <span class="accent">Mission Control</span></h1>
+        <div class="sub">AI Engineer (primary) · Data Scientist (backup) · Tampa / Remote / US · F-1 OPT</div>
       </div>
       <div class="bignum"><span id="daysLeft">—</span><small>days remaining</small></div>
     </header>
 
-    <div class="runway" id="runway"></div>
-    <div class="runway-labels"><span>DAY 1</span><span>D14 STORIES DONE</span><span>D45 CHECKPOINT</span><span>D60 EMERGENCY?</span><span>DAY 100</span></div>
+    <nav>
+      <button class="active" data-page="tracker" onclick="go('tracker')">Tracker</button>
+      <button data-page="scripts" onclick="go('scripts')">Outreach Scripts</button>
+      <button data-page="links" onclick="go('links')">Quick Links</button>
+      <button data-page="posts" onclick="go('posts')">Wednesday Posts</button>
+    </nav>
 
-    <div id="alerts"></div>
-
-    <div class="grid2">
-      <div class="card">
-        <h2>Today's non-negotiables <span class="streak" id="streak"></span></h2>
-        <div class="hint" id="todayLabel"></div>
-        <div id="todos"></div>
+    <!-- ==================== PAGE 1: TRACKER ==================== -->
+    <div class="page active" id="page-tracker">
+      <div class="runway" id="runway"></div>
+      <div class="runway-labels"><span>DAY 1</span><span>D14 STORIES DONE</span><span>D45 CHECKPOINT</span><span>D60 EMERGENCY?</span><span>DAY 100</span></div>
+      <div id="alerts"></div>
+      <div class="grid2">
+        <div class="card">
+          <h2>Today's non-negotiables <span class="streak" id="streak"></span></h2>
+          <div class="hint" id="todayLabel"></div>
+          <div id="todos"></div>
+        </div>
+        <div class="card">
+          <h2>This week's KPIs</h2>
+          <div class="hint" id="weekLabel"></div>
+          <div id="kpis"></div>
+        </div>
       </div>
-
       <div class="card">
-        <h2>This week's KPIs</h2>
-        <div class="hint" id="weekLabel"></div>
-        <div id="kpis"></div>
+        <h2>Pipeline funnel · cumulative</h2>
+        <div class="hint">Healthy at volume: ~700 apps → 12–20 screens → 4–8 finals → 1–3 offers</div>
+        <div class="funnel" id="funnel"></div>
+      </div>
+      <div class="card">
+        <h2>Week history</h2>
+        <div class="hint">Two red weeks in a row = change tactics, not effort (plan §13)</div>
+        <div style="overflow-x:auto"><table id="history"></table></div>
+      </div>
+      <div class="foot">
+        <span class="saving" id="saveState"></span>
+        <button class="reset" onclick="resetAll()">Reset all data</button>
       </div>
     </div>
 
-    <div class="card">
-      <h2>Pipeline funnel · cumulative</h2>
-      <div class="hint">Healthy at volume: ~700 apps → 12–20 screens → 4–8 finals → 1–3 offers</div>
-      <div class="funnel" id="funnel"></div>
+    <!-- ==================== PAGE 2: OUTREACH SCRIPTS ==================== -->
+    <div class="page" id="page-scripts">
+      <div class="card">
+        <h2>Fill once, copy everywhere</h2>
+        <div class="hint">Type the person/company below — every script updates live. Then hit Copy and paste into LinkedIn/email. Fields save automatically.</div>
+        <div class="fillbar">
+          <div><label>Their first name</label><input id="f-name" placeholder="e.g. Sarah"></div>
+          <div><label>Company</label><input id="f-company" placeholder="e.g. Identifi"></div>
+          <div><label>Role title</label><input id="f-role" placeholder="e.g. AI Engineer"></div>
+          <div><label>Job req # / link</label><input id="f-req" placeholder="e.g. req #4821"></div>
+        </div>
+      </div>
+      <div id="templates"></div>
     </div>
 
-    <div class="card">
-      <h2>Week history</h2>
-      <div class="hint">Two red weeks in a row = change tactics, not effort (see plan §13)</div>
-      <div style="overflow-x:auto"><table id="history"></table></div>
+    <!-- ==================== PAGE 3: QUICK LINKS ==================== -->
+    <div class="page" id="page-links">
+      <div class="memo">🎯 <b>Daily order of attack:</b> Handshake first (highest OPT hit-rate) → 108-list companies → LinkedIn last-24h → boards. Check off apps on the Tracker tab as you go.</div>
+
+      <div class="card"><h2>Apply — daily boards</h2><div class="hint">In priority order</div><div class="links">
+        <a class="lnk" href="https://usf.joinhandshake.com/stu/postings" target="_blank"><span><b>USF Handshake</b><span>OPT-friendly local roles — do these FIRST every day</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://www.linkedin.com/jobs/search/?f_TPR=r86400&keywords=AI%20Engineer&location=United%20States" target="_blank"><span><b>LinkedIn · AI Engineer, last 24h</b><span>fresh postings only — early applicants get read</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://hiring.cafe" target="_blank"><span><b>Hiring Cafe</b><span>best visa/OPT filtering of any board</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://simplify.jobs" target="_blank"><span><b>Simplify</b><span>new-grad tracker + autofill</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://wellfound.com/jobs" target="_blank"><span><b>Wellfound</b><span>startups — filter "visa sponsorship" tag</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://us.welcometothejungle.com" target="_blank"><span><b>Welcome to the Jungle (Otta)</b><span>curated mid-market tech</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://github.com/SimplifyJobs/New-Grad-Positions" target="_blank"><span><b>New-Grad Positions repo</b><span>check daily from August — apply day 1</span></span><span class="go">→</span></a>
+      </div></div>
+
+      <div class="card"><h2>Verify before applying</h2><div class="links">
+        <a class="lnk" href="https://www.myvisajobs.com" target="_blank"><span><b>MyVisaJobs</b><span>does this company actually sponsor?</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://h1bgrader.com" target="_blank"><span><b>H1B Grader</b><span>sponsorship history + approval rates</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://www.levels.fyi" target="_blank"><span><b>Levels.fyi</b><span>comp bands — know your number before the call</span></span><span class="go">→</span></a>
+      </div></div>
+
+      <div class="card"><h2>Prep — daily practice</h2><div class="links">
+        <a class="lnk" href="https://neetcode.io/practice" target="_blank"><span><b>NeetCode 150</b><span>your DSA spine — 2/day, done by Day 60</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://www.pramp.com" target="_blank"><span><b>Pramp</b><span>free peer mocks — 1/wk now, 2/wk from Week 6</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://career.usf.edu" target="_blank"><span><b>USF Career Center</b><span>book mocks + ask for employer intros</span></span><span class="go">→</span></a>
+      </div></div>
+
+      <div class="card"><h2>Your assets (keep links consistent everywhere)</h2><div class="links">
+        <a class="lnk" href="https://venky18-portfolio.vercel.app" target="_blank"><span><b>Portfolio</b><span>venky18-portfolio.vercel.app</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://github.com/VenkateswaraRao18" target="_blank"><span><b>GitHub</b><span>pinned: LeadOps · TechCorp RAG · DocuWeave · IT Ops Copilot</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://pypi.org/project/docuweave/" target="_blank"><span><b>DocuWeave on PyPI</b><span>your #1 credibility hook — 500+ monthly downloads</span></span><span class="go">→</span></a>
+        <a class="lnk" href="https://www.linkedin.com/in/me" target="_blank"><span><b>Your LinkedIn</b><span>1 technical post every Wednesday</span></span><span class="go">→</span></a>
+      </div></div>
+
+      <div class="card">
+        <h2>Resume picker — 10-second rule</h2>
+        <div class="hint">Scan the JD for 3+ keywords from a column → use that resume version</div>
+        <div style="overflow-x:auto"><table>
+          <tr><th>Gen AI Engineer resume</th><th>ML Engineer resume</th><th>Data Scientist resume</th></tr>
+          <tr><td>RAG · vector DB · LLM · LangChain · agents · prompt engineering · MCP</td><td>MLOps · model serving · deployment · Kubernetes · inference · monitoring</td><td>statistics · A/B testing · EDA · SQL · dashboards · experimentation</td></tr>
+        </table></div>
+      </div>
     </div>
 
-    <div class="foot">
-      <span class="saving" id="saveState"></span>
-      <button class="reset" onclick="resetAll()">Reset all data</button>
+    <!-- ==================== PAGE 4: WEDNESDAY POSTS ==================== -->
+    <div class="page" id="page-posts">
+      <div class="memo">📅 <b>Post every Wednesday, 8–9 AM ET.</b> Rules: technical, first person, one idea per post. Fill anything in [brackets] with your real details before posting. Never post "I'm looking for a job" — these posts make recruiters DM <i>you</i>. Reply to every comment within 2 hours (comments drive reach). After posting, +1 the "LinkedIn posts" KPI on the Tracker tab.</div>
+      <div id="posts"></div>
     </div>
+
   </div>
 </div>
 
 <script>
-// Storage implementation (localStorage wrapper)
-window.storage = {
-  get: async (key) => {
-    const value = localStorage.getItem(key);
-    return value ? {value} : null;
+/* ---------- storage adapter: Claude artifact OR GitHub Pages ---------- */
+const store={
+  async get(k){
+    if(typeof window.storage!=='undefined'&&window.storage&&window.storage.get){
+      try{const r=await window.storage.get(k);return r?r.value:null}catch(e){return null}
+    }
+    try{return localStorage.getItem(k)}catch(e){return null}
   },
-  set: async (key, value) => {
-    localStorage.setItem(key, value);
+  async set(k,v){
+    if(typeof window.storage!=='undefined'&&window.storage&&window.storage.set){
+      try{await window.storage.set(k,v);return true}catch(e){}
+    }
+    try{localStorage.setItem(k,v);return true}catch(e){return false}
   }
 };
 
-const START = new Date(2026,6,9);            // Jul 9, 2026
-const TOTAL = 100;
-const KEY = 'venky100:mission';
+const START=new Date(2026,6,9), TOTAL=100, KEY='venky100:mission';
 
-const TODOS = [
-  {id:'dsa',   t:'2 DSA problems (first thing)', why:'NeetCode 150 by Day 60'},
-  {id:'apps',  t:'8–10 applications sent',       why:'Handshake + 108-list first'},
-  {id:'refs',  t:'3 referral asks',              why:'USF alumni · DocuWeave hook'},
-  {id:'cold',  t:'1 cold message to a hiring manager', why:'demo link + OPT script'},
-  {id:'prep',  t:'Interview prep block done',    why:'STAR / system design / mock'},
-  {id:'track', t:'Tracker updated',              why:'log every app + follow-up'}
+const TODOS=[
+  {id:'dsa',t:'2 DSA problems (first thing)',why:'NeetCode 150 by Day 60'},
+  {id:'apps',t:'8–10 applications sent',why:'Handshake + 108-list first'},
+  {id:'refs',t:'3 referral asks',why:'USF alumni · DocuWeave hook'},
+  {id:'cold',t:'1 cold message to a hiring manager',why:'demo link + OPT script'},
+  {id:'prep',t:'Interview prep block done',why:'STAR / system design / mock'},
+  {id:'track',t:'Tracker updated',why:'log every app + follow-up'}
 ];
-const KPIS = [
-  {id:'apps',    l:'Applications',        target:50},
-  {id:'refs',    l:'Referral requests',   target:15},
-  {id:'conns',   l:'New connections',     target:25},
-  {id:'cold',    l:'Cold messages',       target:8},
-  {id:'dsa',     l:'DSA problems',        target:12},
-  {id:'mocks',   l:'Mock interviews',     target:1},
-  {id:'posts',   l:'LinkedIn posts',      target:1},
-  {id:'screens', l:'Recruiter screens',   target:1}
+const KPIS=[
+  {id:'apps',l:'Applications',target:50},{id:'refs',l:'Referral requests',target:15},
+  {id:'conns',l:'New connections',target:25},{id:'cold',l:'Cold messages',target:8},
+  {id:'dsa',l:'DSA problems',target:12},{id:'mocks',l:'Mock interviews',target:1},
+  {id:'posts',l:'LinkedIn posts',target:1},{id:'screens',l:'Recruiter screens',target:1}
 ];
-const FUNNEL = [
-  {id:'fApps',l:'Applied'},{id:'fScreens',l:'Screens'},{id:'fTech',l:'Tech rounds'},
-  {id:'fFinals',l:'Finals'},{id:'fOffers',l:'Offers'}
+const FUNNEL=[{id:'fApps',l:'Applied'},{id:'fScreens',l:'Screens'},{id:'fTech',l:'Tech rounds'},{id:'fFinals',l:'Finals'},{id:'fOffers',l:'Offers'}];
+
+/* ---------- outreach templates (uses {name} {company} {role} {req}) ---------- */
+const TEMPLATES=[
+ {h:'LinkedIn connect — USF alumni', when:'≤300 chars · use with connection request',limit:300,
+  b:`Hi {name}, fellow USF grad here — finishing my MS in AI. I saw you're at {company} and I've been shipping production RAG/agent systems, including a PyPI library with 500+ monthly downloads. Would love to connect and hear about your path there.`},
+ {h:'LinkedIn connect — recruiter', when:'≤300 chars · send to recruiters at your 108 companies',limit:300,
+  b:`Hi {name}, I'm an AI engineer (MS AI @ USF, Nov '26) building agentic + RAG systems — published DocuWeave (500+ monthly PyPI downloads). I saw {company} is growing its AI team and would love to be on your radar for {role} roles.`},
+ {h:'Referral ask — after connecting / warm contact', when:'DM or email · make it zero-effort for them',
+  b:`Hi {name}, thanks for connecting! I noticed {company} has a {role} opening ({req}). My background maps closely — I've built production RAG pipelines (94% retrieval accuracy) and autonomous agents, plus DocuWeave, a RAG library with 500+ monthly downloads.
+
+Would you be comfortable referring me? I'll send my resume and a one-paragraph blurb so it takes you under 2 minutes. Totally understand if not — happy to just learn about your experience at {company} either way.`},
+ {h:'Cold message — hiring manager', when:'same day as every "deep" application',
+  b:`Hi {name}, I just applied to your {role} opening ({req}) and wanted to reach out directly.
+
+I've built exactly what the posting describes: an enterprise RAG system with hybrid retrieval (94% accuracy), autonomous agent workflows with LangGraph, and DocuWeave — an open-source RAG library with 500+ monthly downloads. Live demo: [your demo link].
+
+One thing worth knowing: I'm on F-1 OPT with STEM extension — 3 years of work authorization with no upfront sponsorship cost to {company}.
+
+Would you have 15 minutes this week? Happy to walk through the demo.`},
+ {h:'Follow-up — Day 7 (no response)', when:'short, adds one new piece of value',
+  b:`Hi {name}, following up on the {role} application ({req}) from last week. Since then I've [one new thing — e.g., published a benchmark write-up / shipped an eval suite for my RAG project]. Still very interested — is the role actively being filled?`},
+ {h:'Follow-up — Day 14 (final)', when:'last touch, then move on',
+  b:`Hi {name}, last note from me on {role} — I know inboxes are brutal. If the timing isn't right now, I'd welcome staying connected for future AI roles at {company}. Either way, thanks for your time.`},
+ {h:'Coffee-chat ask — engineer on the team', when:'not a job ask — intel + soft referral path',
+  b:`Hi {name}, I've been following {company}'s AI work and really liked [specific thing — product feature, blog post, launch]. I'm finishing my MS in AI at USF and build similar systems (RAG, agents — my library DocuWeave has 500+ monthly downloads).
+
+Would you be open to a 15-min chat about what building AI at {company} is actually like? Not asking for a referral — genuinely want to learn how your team works.`},
+ {h:'Thank-you — after interview', when:'send within 4 hours, reference one specific moment',
+  b:`Hi {name}, thank you for the conversation today about the {role} position. I especially enjoyed discussing [specific topic from the interview] — it confirmed how well the problems your team is solving match what I've built with [most relevant project].
+
+Happy to provide anything else that's helpful. Looking forward to next steps.`},
+ {h:'Your 90-second pitch', when:'phone screens, "tell me about yourself", career fairs',
+  b:`I'm an AI engineer focused on LLM applications — RAG systems and autonomous agents. I'm finishing my MS in AI at USF this November, where I research multi-agent systems for manufacturing.
+
+On the building side: I published DocuWeave, an open-source RAG library that benchmarks 2.9x faster than LangChain and gets 500+ downloads a month. I built an enterprise knowledge assistant with hybrid retrieval hitting 94% accuracy, and LeadOps, an autonomous agent that scores and routes inbound leads end-to-end. Before grad school I shipped NLP classifiers on real user data at Vegrade.
+
+I'm looking for AI Engineer roles where I can own LLM features in production — and I'm on F-1 OPT with STEM extension, so I bring 3 years of work authorization with no upfront cost.`},
+ {h:'Visa answer — word for word', when:'whenever HR asks about sponsorship; deliver it calm, like a non-issue',
+  b:`I'm on F-1 OPT and eligible for the STEM extension, which gives me 3 years of work authorization starting immediately — no sponsorship needed to hire me. H-1B would only come up down the road, and since I'm already in the US, the new supplemental fee for overseas hires doesn't apply to a change-of-status petition. So there's no upfront cost or paperwork for {company} to bring me on.`},
+ {h:'LinkedIn headline (paste into profile)', when:'220 char limit',limit:220,
+  b:`AI Engineer | Agentic Systems & RAG | Built DocuWeave (500+ monthly downloads) | LangGraph · LangChain · FastAPI | MS AI @ USF | F-1 OPT (3 yrs work auth)`},
+ {h:'LinkedIn About section (paste into profile)', when:'3 short paragraphs',
+  b:`I build LLM-powered systems that ship: agentic workflows, RAG pipelines, and production AI applications.
+
+What I've shipped — DocuWeave, an open-source RAG library with 500+ monthly PyPI downloads that benchmarks 2.9x faster than LangChain; an enterprise knowledge assistant with hybrid retrieval (BM25 + Qdrant) hitting 94% retrieval accuracy; LeadOps, an autonomous lead-qualification agent built on LangGraph; and multi-agent AI research for manufacturing (PAAIM) at USF.
+
+I'm completing my MS in AI at the University of South Florida (Nov 2026) and looking for AI Engineer / GenAI Engineer roles — Tampa, remote, or anywhere in the US. F-1 OPT with STEM extension: 3 years of work authorization, no upfront sponsorship cost. Let's talk: [email]`}
 ];
 
-let S = {daily:{}, weeks:{}, funnel:{}, };
+/* ---------- 14 Wednesday posts (weeks 1–14) ---------- */
+const POSTS=[
+ {w:1,h:'LeadOps — how the autonomous agent works',
+  b:`I built an agent that qualifies inbound leads with zero human input. Here's how it actually works.
+
+LeadOps takes a raw inbound lead, enriches it, scores it 0–100, and routes it — approve, nurture, or reject — end to end.
+
+The architecture that made it reliable:
+→ LangGraph state machine instead of a free-running agent loop. Every step is an explicit node, so I always know where a lead is and why.
+→ Structured outputs everywhere. The scoring step returns typed JSON, not prose — no parsing roulette.
+→ A human-escalation edge. Confidence below threshold? It routes to a person instead of guessing.
+
+Biggest lesson: the hard part of agents isn't the LLM call. It's designing the graph so failure has somewhere safe to go.
+
+Repo in comments. What's the failure mode that surprised you most in your first agent build?
+
+#AgenticAI #LangGraph #LLM #AIEngineering`},
+ {w:2,h:'DocuWeave — the 2.9x benchmark story',
+  b:`My open-source RAG library benchmarks 2.9x faster than LangChain on the same pipeline. Here's exactly how I measured it — because a number without methodology is marketing.
+
+The setup: identical corpus, identical embedding model, identical top-k, [N] queries, measuring end-to-end retrieval latency (p50 and p95, not cherry-picked averages).
+
+Where the speedup comes from:
+→ [your real reason #1 — e.g., fewer abstraction layers per call]
+→ [your real reason #2 — e.g., batched embedding + lean chunking path]
+→ [your real reason #3]
+
+What it does NOT mean: LangChain is bad. It optimizes for flexibility; DocuWeave optimizes for the common RAG path. Different trade-offs.
+
+500+ developers download it every month now, which still feels unreal.
+
+Benchmark code is public — link in comments. Poke holes in it, genuinely.
+
+#RAG #OpenSource #Python #LLM #Benchmarks`},
+ {w:3,h:'Chunking mistakes — the road to 94% retrieval accuracy',
+  b:`My enterprise RAG system started at [X]% retrieval accuracy. It ships at 94%. Almost all of that gap was chunking.
+
+What I got wrong first:
+→ Fixed 512-token chunks that sliced tables and code blocks in half. The retriever found the right document and still returned garbage.
+→ No overlap, so answers living on chunk boundaries were invisible.
+→ Treating headers as noise instead of prepending them to every child chunk for context.
+
+What actually moved the number: structure-aware splitting (respect sections, tables, lists), [your real overlap setting], and metadata-enriched chunks so the retriever sees "where am I in this document."
+
+Boring work. Massive gains. Nobody posts about chunking because it isn't glamorous — but it's where RAG systems are won.
+
+What's your default chunking strategy, and have you ever actually measured it?
+
+#RAG #AIEngineering #VectorSearch #LLM`},
+ {w:4,h:'Hybrid retrieval — why BM25 + vectors beats either alone',
+  b:`Pure vector search failed me in production. Here's why my knowledge assistant runs hybrid retrieval (BM25 + Qdrant).
+
+The failure case: exact identifiers. Users search "error code E-4102" or a specific product SKU — semantically these are almost meaningless, so embeddings retrieve vaguely related text. BM25 nails them instantly.
+
+The reverse case: "why is my deployment slow" — no keyword overlap with the doc titled "Performance tuning for container startup." Embeddings win.
+
+So the answer isn't vectors OR keywords. It's both, fused:
+→ BM25 for exact-match precision
+→ Dense vectors for semantic recall
+→ Score fusion + rerank to pick winners
+
+This combination is a big part of how the system holds 94% retrieval accuracy on real enterprise queries.
+
+If your RAG demo works but users complain it "can't find things," check whether they're searching by identifiers. That's the tell.
+
+#RAG #InformationRetrieval #Qdrant #AIEngineering`},
+ {w:5,h:'Evals — "it looks right" is not a metric',
+  b:`I used to test my RAG system by eyeballing 10 answers. Then a "small" prompt change silently broke retrieval for a whole category of queries, and I didn't find out for days.
+
+Now nothing ships without an eval suite. Mine tracks:
+→ Retrieval hit-rate: is the right chunk in the top-k? (This is where my 94% number comes from — it's measured, not vibes.)
+→ Faithfulness: does the answer actually come from the retrieved context, or did the model freelance?
+→ Regression set: [N] real queries that re-run on every change.
+
+The uncomfortable truth: without evals, every prompt tweak is a blind bet. You're not iterating, you're gambling with extra steps.
+
+If you're building with LLMs and don't have an eval suite yet, start with 20 real queries and expected sources. One afternoon of work. It will save you a production incident.
+
+How are you evaluating your LLM systems today — honestly?
+
+#LLMOps #Evals #RAG #AIEngineering`},
+ {w:6,h:'My agent failed in production-style testing. Good.',
+  b:`My favorite bug from building LeadOps: the agent got stuck in a loop [describe your real failure — e.g., re-enriching the same lead because a tool returned a slightly different payload each call, so state never converged].
+
+Why it happened: I trusted the model to decide when it was "done." Models are terrible at knowing when they're done.
+
+The fix:
+→ Hard iteration caps on every graph cycle
+→ Idempotent tool calls — same input, same output, no surprise state changes
+→ Explicit exit conditions in the graph, not in the prompt
+
+The meta-lesson: agent reliability is a systems-engineering problem wearing an AI costume. Determinism at the edges, LLM judgment only in the middle.
+
+I'd rather share the failures than the highlight reel — the failures are where the learning is.
+
+What's the dumbest way one of your agents has failed?
+
+#AgenticAI #LangGraph #AIEngineering #BuildInPublic`},
+ {w:7,h:'PAAIM — multi-agent AI for manufacturing (my research at USF)',
+  b:`At USF I research something most AI content ignores: what happens when multi-agent systems meet the physical world of manufacturing.
+
+The problem PAAIM tackles: [1–2 sentences on the real problem — e.g., coordinating scheduling/monitoring decisions across production processes that today require constant human orchestration].
+
+What makes manufacturing brutally different from chatbot-land:
+→ Wrong outputs have physical costs, not just bad UX
+→ Data is sensor streams and legacy systems, not clean text
+→ Agents must coordinate under real constraints, not just converse
+
+What I've learned so far: [one genuine insight from your research].
+
+Applied research like this changed how I build everything — even my web-world agents now get designed like something physical depends on them.
+
+Happy to talk to anyone working on industrial AI. It's underrated and it's coming fast.
+
+#MultiAgentSystems #AIResearch #Manufacturing #AgenticAI`},
+ {w:8,h:'Fine-tune vs RAG vs prompting — my decision framework',
+  b:`"Should we fine-tune?" is the question I hear most. After building both fine-tuning pipelines and production RAG, here's my honest decision tree:
+
+Start with prompting if: the base model already has the knowledge and you just need behavior shaping. Cost: an afternoon.
+
+Use RAG if: the knowledge is external, changes often, or must be cited. You need "what does OUR data say" — this is 80% of enterprise use cases. Cost: days to weeks.
+
+Fine-tune only if: you need consistent style/format at scale, lower latency on a smaller model, or the task pattern can't be prompted in. Cost: data curation pain + an eval suite you now must maintain forever.
+
+The mistake I see constantly: teams fine-tuning to inject knowledge. Fine-tuning teaches behavior, not facts — facts belong in retrieval.
+
+I built an LLM-aware fine-tuning framework precisely because step one should always be: prove prompting and RAG can't do it first.
+
+Where do you disagree?
+
+#LLM #FineTuning #RAG #AIEngineering`},
+ {w:9,h:'Cutting LLM costs without cutting quality',
+  b:`LLM apps don't die from bad answers. They die from the invoice.
+
+Optimizations that actually moved the needle in my systems:
+
+→ Model routing: a classifier decides if the query needs the big model. [Your real %] of queries in my knowledge assistant resolve fine on a smaller, cheaper model.
+→ Caching: semantic-similarity cache for repeated questions. Enterprise users ask the same 50 things constantly.
+→ Context discipline: rerank hard, send fewer, better chunks. Stuffing 20 chunks into context costs more AND retrieves worse.
+→ Prompt caching for stable system prompts — free money most people leave on the table.
+
+The mindset shift: tokens are a resource budget, like memory or bandwidth. Nobody would ship code that allocates 10x the RAM it needs. Same rule.
+
+What's the single biggest cost lever you've found?
+
+#LLMOps #AIEngineering #CostOptimization #RAG`},
+ {w:10,h:'Giving agents real hands — tool use and MCP',
+  b:`A chatbot that can only talk is a demo. An agent that can safely touch real systems is a product.
+
+Building my IT Ops Copilot taught me what "safely" actually requires:
+
+→ Typed tool schemas — the model gets exact parameter contracts, not vibes
+→ Read/write separation — reads run free, writes require confirmation
+→ Scoped permissions — the agent gets the minimum access to do its job, same as you'd treat a junior engineer's credentials
+→ Full audit logging — every tool call recorded, replayable, blameable
+
+This is why I'm bullish on MCP (Model Context Protocol): standardized tool interfaces mean we stop hand-rolling brittle integrations for every system an agent touches.
+
+The next two years of AI value creation won't come from smarter models. It'll come from safer hands.
+
+What tools have you wired your agents into?
+
+#MCP #AgenticAI #ToolUse #AIEngineering`},
+ {w:11,h:'What 500+ monthly downloads taught me about open source',
+  b:`When DocuWeave passed 500 monthly downloads on PyPI, I expected to feel proud. Instead I felt responsible. Real people's pipelines now break if I ship a bad release.
+
+What maintaining a used library actually taught me:
+
+→ Your README is your product. Most "bugs" reported early were documentation failures — mine, not theirs.
+→ Semantic versioning is a promise, not a suggestion. I learned this the hard way with a breaking change in a minor release. Never again.
+→ Issues are free user research. Every confused question showed me an API design flaw I was blind to.
+→ Saying no is maintenance too. Not every feature request belongs in the library.
+
+Publishing a package takes an afternoon. Maintaining one builds engineering judgment nothing else does.
+
+If you've been sitting on a "maybe I should open-source this" — do it. Link to DocuWeave in the comments if you want to see mine.
+
+#OpenSource #Python #RAG #SoftwareEngineering`},
+ {w:12,h:'Notebook to production — what actually changes',
+  b:`The gap between "my RAG works in a notebook" and "my RAG runs in production" is where most AI projects quietly die. Things nobody warns you about:
+
+→ Ingestion is a pipeline, not a script. Documents update, formats break, someone uploads a 400MB PDF. My enterprise assistant needed retry logic and dead-letter handling before it needed a better prompt.
+→ Auth changes retrieval. With RBAC, two users asking the same question must get different answers based on what they're allowed to see. That's a retrieval-layer problem, not a UI problem.
+→ Observability or blindness. When answer quality drops, was it retrieval, reranking, or the model? Without per-stage tracing you're debugging with a blindfold.
+→ Latency budgets are real. Users tolerate ~[your target]s. Every pipeline stage fights for that budget.
+
+The model is maybe 20% of a production LLM system. The other 80% is software engineering — which is exactly why "AI Engineer" is a real discipline.
+
+#MLOps #RAG #ProductionAI #AIEngineering`},
+ {w:13,h:"What I'd tell someone building their first RAG system",
+  b:`After a published RAG library, an enterprise deployment at 94% retrieval accuracy, and plenty of scars — here's the advice I'd give past-me starting RAG from zero:
+
+1. Build the eval set BEFORE the pipeline. 20 real questions + known source docs. Otherwise you can't tell if any change helps.
+2. Spend your first week on chunking, not on the model. Retrieval quality caps answer quality — a perfect model can't answer from the wrong chunk.
+3. Go hybrid early. Pure vector search will humiliate you the first time a user searches an exact ID.
+4. Log everything per stage: query → retrieved chunks → reranked set → final answer. Debugging without this is guessing.
+5. Ship the boring version first. Fancy query rewriting and agentic retrieval come AFTER the basics measurably work.
+
+The pattern behind all five: measure, don't vibe.
+
+What would you add as #6?
+
+#RAG #AIEngineering #LLM #CareerAdvice`},
+ {w:14,h:'100 days of building in public — what I shipped',
+  b:`14 weeks ago I committed to posting one technical deep-dive every Wednesday while finishing my MS in AI at USF. The scoreboard:
+
+→ DocuWeave: 500+ monthly downloads, [current number] now, benchmark methodology public
+→ Enterprise RAG assistant: hybrid retrieval holding 94% accuracy, now with a full eval suite
+→ LeadOps: autonomous lead-qualification agent, live demo anyone can try
+→ PAAIM: multi-agent research for manufacturing at USF
+→ [anything new you shipped during the 100 days]
+
+What building in public actually did: every post forced me to understand my own systems well enough to explain them. Several of my best conversations this year started as a comment on one of these posts.
+
+I graduate in November and I'm joining a team building production LLM systems — [if offer signed: "thrilled to share where soon" / if still searching: "and I'm finalizing where. If your team ships agents or RAG to real users, my DMs are open."]
+
+Thank you to everyone who argued with me in the comments. That was the good part.
+
+#AIEngineering #BuildInPublic #RAG #AgenticAI`}
+];
+
+let S={daily:{},weeks:{},funnel:{},fill:{}};
 let saveTimer=null;
 
-function dayIndex(d=new Date()){
-  const a=new Date(d.getFullYear(),d.getMonth(),d.getDate());
-  return Math.floor((a-START)/86400000)+1; // Day 1 = Jul 9
-}
+function dayIndex(d=new Date()){const a=new Date(d.getFullYear(),d.getMonth(),d.getDate());return Math.floor((a-START)/86400000)+1;}
 function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function weekNum(){return Math.min(15,Math.max(1,Math.ceil(dayIndex()/7)));}
 
+function go(p){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.toggle('active',pg.id==='page-'+p));
+}
+
 async function load(){
-  try{
-    const r=await window.storage.get(KEY);
-    if(r&&r.value) S=JSON.parse(r.value);
-  }catch(e){ /* first run — key doesn't exist yet */ }
-  if(!S.daily)S.daily={}; if(!S.weeks)S.weeks={}; if(!S.funnel)S.funnel={};
+  try{const v=await store.get(KEY); if(v)S=JSON.parse(v);}catch(e){}
+  if(!S.daily)S.daily={}; if(!S.weeks)S.weeks={}; if(!S.funnel)S.funnel={}; if(!S.fill)S.fill={};
   document.getElementById('loading').style.display='none';
   document.getElementById('app').style.display='block';
-  render();
+  initFill(); render(); renderTemplates(); renderPosts();
+}
+
+function renderPosts(){
+  const box=document.getElementById('posts'); box.innerHTML='';
+  const wn=weekNum();
+  POSTS.forEach((p,i)=>{
+    const isThis=p.w===wn;
+    const d=document.createElement('div'); d.className='tpl';
+    if(isThis)d.style.borderColor='var(--amber)';
+    d.innerHTML='<div class="tpl-head"'+(isThis?' style="background:#FBF3E3"':'')+'><div><h3>Week '+p.w+(isThis?' · THIS WEEK':'')+' — '+esc(p.h)+'</h3><div class="when">'+(p.b.includes('[')?'fill the [brackets] with your real details before posting':'ready to post')+'</div></div><button class="copy" id="pp'+i+'">Copy</button></div>'
+      +'<div class="tpl-body">'+esc(p.b).replace(/\[([^\]]+)\]/g,'<span class="ph">[$1]</span>')+'</div>';
+    d.querySelector('.copy').onclick=async()=>{
+      const btn=document.getElementById('pp'+i);
+      try{await navigator.clipboard.writeText(p.b);}
+      catch(e){const ta=document.createElement('textarea');ta.value=p.b;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+      btn.textContent='Copied ✓';btn.classList.add('done');
+      setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},1600);
+    };
+    box.appendChild(d);
+  });
 }
 function save(){
-  document.getElementById('saveState').textContent='Saving…';
+  const el=document.getElementById('saveState');
+  el.textContent='Saving…';
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
-    try{
-      await window.storage.set(KEY, JSON.stringify(S));
-      document.getElementById('saveState').textContent='Saved ✓ (persists across sessions)';
-    }catch(e){
-      document.getElementById('saveState').textContent='Save failed — retry an action';
-    }
+    const ok=await store.set(KEY,JSON.stringify(S));
+    el.textContent=ok?'Saved ✓':'Save failed — check browser storage settings';
   },400);
 }
 async function resetAll(){
   if(!confirm('Wipe ALL tracker data? This cannot be undone.'))return;
-  S={daily:{},weeks:{},funnel:{}};
-  try{await window.storage.set(KEY,JSON.stringify(S));}catch(e){}
-  render();
+  S={daily:{},weeks:{},funnel:{},fill:{}};
+  await store.set(KEY,JSON.stringify(S));
+  initFill(); render(); renderTemplates();
 }
 
+/* ---------- fill fields + templates ---------- */
+const FIELDS=[['f-name','name'],['f-company','company'],['f-role','role'],['f-req','req']];
+function initFill(){
+  FIELDS.forEach(([id,k])=>{
+    const el=document.getElementById(id);
+    el.value=S.fill[k]||'';
+    el.oninput=()=>{S.fill[k]=el.value;save();renderTemplates();};
+  });
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fillText(t){
+  const map={name:'Their name',company:'the company',role:'the role',req:'the posting'};
+  return t.replace(/\{(name|company|role|req)\}/g,(_,k)=>S.fill[k]&&S.fill[k].trim()?S.fill[k].trim():'['+map[k]+']');
+}
+function fillHtml(t){
+  const map={name:'Their name',company:'the company',role:'the role',req:'the posting'};
+  return esc(t).replace(/\{(name|company|role|req)\}/g,(_,k)=>{
+    const v=S.fill[k]&&S.fill[k].trim();
+    return v?'<span class="ph">'+esc(v)+'</span>':'<span class="ph">['+map[k]+']</span>';
+  });
+}
+function renderTemplates(){
+  const box=document.getElementById('templates'); box.innerHTML='';
+  TEMPLATES.forEach((tp,i)=>{
+    const txt=fillText(tp.b);
+    const d=document.createElement('div'); d.className='tpl';
+    let charInfo='';
+    if(tp.limit){
+      const over=txt.length>tp.limit;
+      charInfo='<div class="char'+(over?' over':'')+'">'+txt.length+' / '+tp.limit+' chars'+(over?' — trim before sending':'')+'</div>';
+    }
+    d.innerHTML='<div class="tpl-head"><div><h3>'+tp.h+'</h3><div class="when">'+tp.when+'</div></div><button class="copy" id="cp'+i+'">Copy</button></div>'
+      +'<div class="tpl-body">'+fillHtml(tp.b)+'</div>'+charInfo;
+    d.querySelector('.copy').onclick=async()=>{
+      const btn=document.getElementById('cp'+i);
+      try{await navigator.clipboard.writeText(txt);}
+      catch(e){
+        const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+      }
+      btn.textContent='Copied ✓';btn.classList.add('done');
+      setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},1600);
+    };
+    box.appendChild(d);
+  });
+}
+
+/* ---------- tracker render ---------- */
 function render(){
   const di=Math.max(1,Math.min(TOTAL,dayIndex()));
-  const left=Math.max(0,TOTAL-dayIndex());
-  document.getElementById('daysLeft').textContent=left;
+  document.getElementById('daysLeft').textContent=Math.max(0,TOTAL-dayIndex());
 
-  // runway
   const rw=document.getElementById('runway'); rw.innerHTML='';
   const flags=[14,45,60];
   for(let i=1;i<=TOTAL;i++){
     const t=document.createElement('div');
     t.className='tick'+(i<di?' done':'')+(i===di?' today':'')+(flags.includes(i)?' flag':'');
-    t.title='Day '+i;
-    rw.appendChild(t);
+    t.title='Day '+i; rw.appendChild(t);
   }
 
-  // alerts
   const al=document.getElementById('alerts'); al.innerHTML='';
   const screens=Object.values(S.weeks).reduce((s,w)=>s+(w.screens||0),0);
   if(di>=45&&di<60&&screens<5)
     al.innerHTML='<div class="alert"><b>Day-45 checkpoint: '+screens+' screens (target ≥5)</b>Shift to 80% referral outreach and activate the Data Scientist backup track at full volume. Plan §12.</div>';
   if(di>=60&&screens<8)
-    al.innerHTML='<div class="alert red"><b>Day-60 emergency plan active</b>Diagnose the funnel leak, widen roles + geography, contact staffing agencies, in-person blitz. Plan §12 — and remember the real wall is Jan–Feb (OPT 90-day clock), so escalate methodically, don\'t panic.</div>';
+    al.innerHTML='<div class="alert red"><b>Day-60 emergency plan active</b>Diagnose the funnel leak, widen roles + geography, contact staffing agencies (Insight Global, TEKsystems), in-person blitz. Real wall is Jan–Feb (OPT 90-day clock) — escalate methodically.</div>';
 
-  // todos
-  const tk=todayKey();
-  const today=S.daily[tk]||{};
+  const tk=todayKey(), today=S.daily[tk]||{};
   const box=document.getElementById('todos'); box.innerHTML='';
   TODOS.forEach(t=>{
     const on=!!today[t.id];
@@ -242,14 +656,12 @@ function render(){
     el.innerHTML='<input type="checkbox" '+(on?'checked':'')+'><div><div class="t">'+t.t+'</div><div class="why">'+t.why+'</div></div>';
     el.querySelector('input').addEventListener('change',e=>{
       if(!S.daily[tk])S.daily[tk]={};
-      S.daily[tk][t.id]=e.target.checked;
-      save(); render();
+      S.daily[tk][t.id]=e.target.checked; save(); render();
     });
     box.appendChild(el);
   });
   document.getElementById('todayLabel').textContent='Day '+di+' of 100 · '+new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
 
-  // streak: consecutive days (ending today or yesterday) with all 6 done
   let streak=0, d=new Date();
   const allDone=k=>{const day=S.daily[k];return day&&TODOS.every(t=>day[t.id]);};
   if(!allDone(tk)) d.setDate(d.getDate()-1);
@@ -259,7 +671,6 @@ function render(){
   }
   document.getElementById('streak').textContent=streak>0?('🔥 '+streak+'-day streak'):'';
 
-  // weekly KPIs
   const wn=weekNum();
   if(!S.weeks[wn])S.weeks[wn]={};
   const wk=S.weeks[wn];
@@ -269,17 +680,15 @@ function render(){
     const v=wk[k.id]||0, pct=Math.min(100,Math.round(v/k.target*100));
     const cls=v>=k.target?'over':(pct>=60?'':(pct>=30?'warn':'bad'));
     const row=document.createElement('div'); row.className='kpi-row';
-    row.innerHTML='<div class="kpi" style="margin:0"><div class="kpi-top"><b>'+k.l+'</b><span class="n">'+v+' / '+k.target+'</span></div><div class="bar"><i class="'+cls+'" style="width:'+pct+'%"></i></div></div>'
-      +'<div class="stepper"><button aria-label="decrease">−</button><span class="val">'+v+'</span><button aria-label="increase">+</button></div>';
+    row.innerHTML='<div style="margin:0"><div class="kpi-top"><b>'+k.l+'</b><span class="n">'+v+' / '+k.target+'</span></div><div class="bar"><i class="'+cls+'" style="width:'+pct+'%"></i></div></div>'
+      +'<div class="stepper"><button aria-label="decrease '+k.l+'">−</button><span class="val">'+v+'</span><button aria-label="increase '+k.l+'">+</button></div>';
     const [dec,inc]=row.querySelectorAll('button');
     dec.onclick=()=>{wk[k.id]=Math.max(0,(wk[k.id]||0)-1);save();render();};
     inc.onclick=()=>{wk[k.id]=(wk[k.id]||0)+1;save();render();};
     kb.appendChild(row);
   });
 
-  // funnel
   const fb=document.getElementById('funnel'); fb.innerHTML='';
-  // fApps auto-sums weekly apps; rest manual
   const totApps=Object.values(S.weeks).reduce((s,w)=>s+(w.apps||0),0);
   FUNNEL.forEach((f,i)=>{
     const v=f.id==='fApps'?totApps:(S.funnel[f.id]||0);
@@ -299,7 +708,6 @@ function render(){
     fb.appendChild(el);
   });
 
-  // history table
   const ht=document.getElementById('history');
   let html='<tr><th>Wk</th>'+KPIS.map(k=>'<th>'+k.l.split(' ')[0]+'</th>').join('')+'<th>Score</th></tr>';
   for(let w=1;w<=wn;w++){
